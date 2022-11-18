@@ -4,7 +4,7 @@ var HDWalletProvider = require('truffle-hdwallet-provider')
 var KlaytnHDWalletProvider = require('truffle-hdwallet-provider-klaytn')
 var Caver = require('caver-js')
 
-var rinkebyMnemonic = process.env.RINKEBY_MNEMONIC || ''
+var goerliMnemonic = process.env.GOERLI_MNEMONIC || ''
 var mumbaiMnemonic = process.env.MUMBAI_MNEMONIC || ''
 var mainnetMnemonic = process.env.MAINNET_MNEMONIC || ''
 var klaytnPrivateKey = process.env.KLAYTN_PRIVATE_KEY || ''
@@ -43,13 +43,13 @@ module.exports = {
       gas: 0xfffffffffff,
       gasPrice: 0x01
     },
-    rinkeby: {
+    goerli: {
       provider: function () {
-        return new HDWalletProvider(rinkebyMnemonic, 'https://rinkeby.infura.io/v3/'+infuraKey)
+        return new HDWalletProvider(goerliMnemonic, 'https://goerli.infura.io/v3/' + infuraKey)
       },
       from: '',
       port: 8545,
-      network_id: '4',
+      network_id: '5',
       gas: 6700000,
       networkCheckTimeout: 100000,
       gasPrice: 21110000000,
@@ -77,7 +77,7 @@ module.exports = {
       network_id: '1001',
       networkCheckTimeout: 10000,
       gas: '8500000',
-      gasPrice:'25000000000'
+      gasPrice: '25000000000'
     },
     klaytn: {
       provider: () => {
@@ -94,7 +94,7 @@ module.exports = {
       network_id: '8217',
       networkCheckTimeout: 10000,
       gas: '8500000',
-      gasPrice:'25000000000'
+      gasPrice: '25000000000'
     }
   },
   compilers: {

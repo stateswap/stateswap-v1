@@ -7,7 +7,7 @@ const { setConfig } = require('./config.js')
 const chainIds = {
   development: 50,
   coverage: 50,
-  rinkeby: 4,
+  goerli: 5,
   mumbai: 80001,
   main: 1
 }

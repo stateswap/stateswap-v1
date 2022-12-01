@@ -230,4 +230,19 @@ contract VerifierUtil is StaticCaller {
         require(j == extradatas.length);
     }
 
+    function receiveETH(
+        bytes memory extra,
+        address[7] memory,
+        AuthenticatedProxy.HowToCall,
+        uint256[6] memory uints,
+        bytes memory
+    ) public pure {
+        uint256 price = abi.decode(extra, (uint256));
+        require(price > 0, "receiveETH: price must be larger than zero");
+        require(
+            uints[0] >= price,
+            "receiveETH: ETH recieved must be larger than price"
+        );
+    }
+
 }

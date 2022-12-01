@@ -3,7 +3,7 @@
     "goerli": {
       "Migrations": "0x624B244EA2EBD75E648E69BcCF618555d54a748f",
       "StateswapAtomicizer": "0xe54Df82cBb61863987B20BAb6642347961B5738d",
-      "StateswapVerifier": "0x98c4d5D255A150df28a791E0d8DCCFff07aaE6f2",
+      "StateswapVerifier": "0xC9978Aa0629BebcEFC02a39764ff17434ba404C9",
       "VerifierMarket": "0x998146152492587d5754Fe73c34113bda9821C28",
       "StateswapRegistry": "0x22B46404a3DE839B87186317319a7d3d8eeF2B53",
       "StateswapExchange": "0x327113485E4110Db061C17017aC213cD234Bb0E8"

@@ -22,9 +22,9 @@ contract VerifierERC721 {
         // Decode extradata
         (address token, uint tokenId) = abi.decode(extra, (address, uint));
 
-        // Call target = token to give
+        // Effectfull Call target = token to give
         require(addresses[2] == token);
-        // Call type = call
+        // Effectfull Call type = call
         require(howToCall == AuthenticatedProxy.HowToCall.Call);
         // Assert calldata
         require(ArrayUtils.arrayEq(data, abi.encodeWithSignature("transferFrom(address,address,uint256)", addresses[1], addresses[4], tokenId)));
@@ -43,18 +43,18 @@ contract VerifierERC721 {
         // Decode extradata
         (address[2] memory tokenGiveGet, uint[2] memory nftGiveGet) = abi.decode(extra, (address[2],uint[2]));
 
-        // Call target = token to give
-        require(addresses[2] == tokenGiveGet[0], "ERC721: call target must equal address of token to give");
-        // Call type = call
-        require(howToCalls[0] == AuthenticatedProxy.HowToCall.Call, "ERC721: call must be a direct call");
-        // Assert calldata
+        // EffectfullCall target = token to give
+        require(addresses[2] == tokenGiveGet[0], "ERC721: Effectfull call target must equal address of token to give");
+        // EffectfullCall type = call
+        require(howToCalls[0] == AuthenticatedProxy.HowToCall.Call, "ERC721: Effectfull call must be a direct call");
+        // Assert Effectfullcalldata
         require(ArrayUtils.arrayEq(data, abi.encodeWithSignature("transferFrom(address,address,uint256)", addresses[1], addresses[4], nftGiveGet[0])));
 
-        // Countercall target = token to get
-        require(addresses[5] == tokenGiveGet[1], "ERC721: countercall target must equal address of token to get");
-        // Countercall type = call
-        require(howToCalls[1] == AuthenticatedProxy.HowToCall.Call, "ERC721: countercall must be a direct call");
-        // Assert countercalldata
+        // EffectfullCountercall target = token to get
+        require(addresses[5] == tokenGiveGet[1], "ERC721: Effectfull countercall target must equal address of token to get");
+        // EffectfullCountercall type = call
+        require(howToCalls[1] == AuthenticatedProxy.HowToCall.Call, "ERC721: Effectfull countercall must be a direct call");
+        // Assert Effectfullcountercalldata
         require(ArrayUtils.arrayEq(counterdata, abi.encodeWithSignature("transferFrom(address,address,uint256)", addresses[4], addresses[1], nftGiveGet[1])));
 
         // Mark filled
@@ -77,13 +77,13 @@ contract VerifierERC721 {
         // Decode extradata
         (address[2] memory tokenGiveGet, uint[2] memory nftGiveGet) = abi.decode(extra, (address[2],uint[2]));
 
-        // Call target = token to give
-        require(addresses[2] == tokenGiveGet[0], "ERC721: call target must equal address of token to give");
-        // Call type = call
-        require(howToCalls[0] == AuthenticatedProxy.HowToCall.Call, "ERC721: call must be a direct call");
+        // EffectfullCall target = token to give
+        require(addresses[2] == tokenGiveGet[0], "ERC721: Effectfull call target must equal address of token to give");
+        // EffectfullCall type = call
+        require(howToCalls[0] == AuthenticatedProxy.HowToCall.Call, "ERC721: Effectfull call must be a direct call");
         // Assert signature
         require(ArrayUtils.arrayEq(sig, ArrayUtils.arrayTake(data, 4)));
-        // Decode calldata
+        // Decode Effectfullcalldata
         (address callFrom, address callTo, uint256 nftGive) = abi.decode(ArrayUtils.arrayDrop(data, 4), (address, address, uint256));
         // Assert from
         require(callFrom == addresses[1]);
@@ -92,13 +92,13 @@ contract VerifierERC721 {
         // Assert NFT
         require(nftGive == nftGiveGet[0]);
 
-        // Countercall target = token to get
-        require(addresses[5] == tokenGiveGet[1], "ERC721: countercall target must equal address of token to get");
-        // Countercall type = call
-        require(howToCalls[1] == AuthenticatedProxy.HowToCall.Call, "ERC721: countercall must be a direct call");
+        // EffectfullCountercall target = token to get
+        require(addresses[5] == tokenGiveGet[1], "ERC721: Effectfull countercall target must equal address of token to get");
+        // EffectfullCountercall type = call
+        require(howToCalls[1] == AuthenticatedProxy.HowToCall.Call, "ERC721: Effectfull countercall must be a direct call");
         // Assert signature
         require(ArrayUtils.arrayEq(sig, ArrayUtils.arrayTake(counterdata, 4)));
-        // Decode countercalldata
+        // Decode Effectfullcountercalldata
         (address countercallFrom, address countercallTo, uint256 nftGet) = abi.decode(ArrayUtils.arrayDrop(counterdata, 4), (address, address, uint256));
         // Assert from
         require(countercallFrom == addresses[4]);

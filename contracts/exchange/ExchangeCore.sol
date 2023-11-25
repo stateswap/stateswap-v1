@@ -49,12 +49,12 @@ contract ExchangeCore is ReentrancyGuarded, StaticCaller, EIP712 {
     }
 
     /* A call, convenience struct. */
-    struct Call {
+    struct EffectfullCall {
         /* Target */
         address target;
         /* How to call */
         AuthenticatedProxy.HowToCall howToCall;
-        /* Calldata */
+        /* EffectfullCalldata */
         bytes data;
     }
 
@@ -226,7 +226,7 @@ contract ExchangeCore is ReentrancyGuarded, StaticCaller, EIP712 {
         return staticCallUint(order.verifierTarget, encodeVerifierCall(order, call, counterorder, countercall, matcher, value, fill));
     }
 
-    function executeCall(ProxyRegistryInterface registry, address maker, Call memory call)
+    function executeCall(ProxyRegistryInterface registry, address maker, EffectfullCall memory effectfullCall)
         internal
         returns (bool)
     {
@@ -234,7 +234,7 @@ contract ExchangeCore is ReentrancyGuarded, StaticCaller, EIP712 {
         require(registries[address(registry)]);
 
         /* Assert target exists. */
-        require(exists(call.target), "Call target does not exist");
+        require(exists(effectfullCall.target), "efectfullCall target does not exist");
 
         /* Retrieve delegate proxy contract. */
         OwnableDelegateProxy delegateProxy = registry.proxies(maker);
@@ -249,7 +249,7 @@ contract ExchangeCore is ReentrancyGuarded, StaticCaller, EIP712 {
         AuthenticatedProxy proxy = AuthenticatedProxy(address(delegateProxy));
 
         /* Execute order. */
-        return proxy.proxy(call.target, call.howToCall, call.data);
+        return proxy.proxy(effectfullCall.target, effectfullCall.howToCall, effectfullCall.data);
     }
 
     function approveOrderHash(bytes32 hash)
@@ -301,7 +301,7 @@ contract ExchangeCore is ReentrancyGuarded, StaticCaller, EIP712 {
         emit OrderFillChanged(hash, msg.sender, fill);
     }
 
-    function stateswap(Order memory firstOrder, Call memory firstCall, Order memory secondOrder, Call memory secondCall, bytes memory signatures, bytes32 metadata)
+    function stateswap(Order memory firstOrder, EffectfullCall memory firstEffectfullCall, Order memory secondOrder, EffectfullCall memory secondEffectfullCall, bytes memory signatures, bytes32 metadata)
         internal
         reentrancyGuard
     {
@@ -343,12 +343,12 @@ contract ExchangeCore is ReentrancyGuarded, StaticCaller, EIP712 {
             require(success, "native token transfer failed.");
         }
 
-        /* Execute first call, assert success.
+        /* Execute first Effectfull call, assert success.
            This is the second "asymmetric" part of order matching: execution of the second order can depend on state changes in the first order, but not vice-versa. */
-        require(executeCall(ProxyRegistryInterface(firstOrder.registry), firstOrder.maker, firstCall), "First call failed");
+        require(executeCall(ProxyRegistryInterface(firstOrder.registry), firstOrder.maker, firstEffectfullCall), "First Execution call failed");
 
-        /* Execute second call, assert success. */
-        require(executeCall(ProxyRegistryInterface(secondOrder.registry), secondOrder.maker, secondCall), "Second call failed");
+        /* Execute second Effectful call, assert success. */
+        require(executeCall(ProxyRegistryInterface(secondOrder.registry), secondOrder.maker, secondEffectfullCall), "Second Execution call failed");
 
         /* Verifier calls must happen after the effectful calls so that they can check the resulting state. */
 

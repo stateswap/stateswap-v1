@@ -10,6 +10,7 @@ var mainnetMnemonic = process.env.MAINNET_MNEMONIC || ''
 var klaytnPrivateKey = process.env.KLAYTN_PRIVATE_KEY || ''
 var baobabPrivateKey = process.env.BAOBAB_PRIVATE_KEY || ''
 var infuraKey = process.env.INFURA_KEY || '';
+var etherscankey = process.env.ETHERSCANKEY || '';
 
 var kasAccessKeyId = process.env.KAS_ACCESS_KEY_ID || ''
 var kasSecretAccessKey = process.env.KAS_SECRET_KEY || ''
@@ -107,5 +108,11 @@ module.exports = {
         }
       }
     }
+  },
+  plugins: [
+    'truffle-plugin-verify'
+  ],
+  api_keys: {
+    etherscan: etherscankey
   }
 }

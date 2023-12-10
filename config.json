@@ -7,6 +7,14 @@
       "VerifierMarket": "0x998146152492587d5754Fe73c34113bda9821C28",
       "StateswapRegistry": "0x22B46404a3DE839B87186317319a7d3d8eeF2B53",
       "StateswapExchange": "0x327113485E4110Db061C17017aC213cD234Bb0E8"
+    },
+    "sepolia": {
+      "Migrations": "0xd445B51cEe9fed169978be7B5638E8Ed6b05A035",
+      "StateswapAtomicizer": "0x624B244EA2EBD75E648E69BcCF618555d54a748f",
+      "StateswapVerifier": "0xCE472cbBcce02E3218f7d45DF4e8DA2D5ee58896",
+      "VerifierMarket": "0xe54Df82cBb61863987B20BAb6642347961B5738d",
+      "StateswapRegistry": "0x998146152492587d5754Fe73c34113bda9821C28",
+      "StateswapExchange": "0xf9a7EBe218F8f84A24C275dF970913e865245c28"
     }
   }
 }

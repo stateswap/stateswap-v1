@@ -53,7 +53,7 @@ module.exports = {
       network_id: '5',
       gas: 6700000,
       networkCheckTimeout: 100000,
-      gasPrice: 21110000000,
+      gasPrice: 1000000000, // 1Gwei
       confirmations: 2
     },
     sepolia: {

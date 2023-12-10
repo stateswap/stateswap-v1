@@ -68,16 +68,16 @@ contract Exchange is ExchangeCore {
     }
 
     function stateswap_(uint[16] memory uints, bytes4[2] memory verifierSelectors,
-        bytes memory firstExtradata, bytes memory firstEffectfullCalldata, bytes memory secondExtradata, bytes memory secondEffectfullCalldata,
+        bytes memory firstExtradata, bytes memory firstEffectfulCalldata, bytes memory secondExtradata, bytes memory secondEffectfulCalldata,
         uint8[2] memory howToCalls, bytes32 metadata, bytes memory signatures)
         public
         payable
     {
         return stateswap(
             Order(address(uints[0]), address(uints[1]), address(uints[2]), verifierSelectors[0], firstExtradata, uints[3], uints[4], uints[5], uints[6]),
-            EffectfullCall(address(uints[7]), AuthenticatedProxy.HowToCall(howToCalls[0]), firstEffectfullCalldata),
+            EffectfulCall(address(uints[7]), AuthenticatedProxy.HowToCall(howToCalls[0]), firstEffectfulCalldata),
             Order(address(uints[8]), address(uints[9]), address(uints[10]), verifierSelectors[1], secondExtradata, uints[11], uints[12], uints[13], uints[14]),
-            EffectfullCall(address(uints[15]), AuthenticatedProxy.HowToCall(howToCalls[1]), secondEffectfullCalldata),
+            EffectfulCall(address(uints[15]), AuthenticatedProxy.HowToCall(howToCalls[1]), secondEffectfulCalldata),
             signatures,
             metadata
         );

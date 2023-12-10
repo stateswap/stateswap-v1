@@ -315,7 +315,7 @@ contract('StateswapExchange', (accounts) => {
 	it('matches erc1155 <> erc20 signed orders, matched right, real verifier call, cannot fill beyond maximumFill', async () => {
 		return assertIsRejected(
 			erc1155_erc20_match_right_verifier_call(1, 2),
-			/First Effectfull call failed/,
+			/First Effectful call failed/,
 			'Order should not match a second time.'
 		)
 	})

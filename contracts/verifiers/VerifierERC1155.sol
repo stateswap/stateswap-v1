@@ -22,11 +22,11 @@ function transferERC1155Exact(bytes memory extra,
 	// Decode extradata
 	(address token, uint256 tokenId, uint256 amount) = abi.decode(extra, (address, uint256, uint256));
 
-	// EffectfullCall target = token to give
+	// EffectfulCall target = token to give
 	require(addresses[2] == token);
-	// EffectfullCall type = call
+	// EffectfulCall type = call
 	require(howToCall == AuthenticatedProxy.HowToCall.Call);
-	// Assert Effectfull calldata
+	// Assert Effectful calldata
 	require(ArrayUtils.arrayEq(data, abi.encodeWithSignature("safeTransferFrom(address,address,uint256,uint256,bytes)", addresses[1], addresses[4], tokenId, amount, "")));
 }
 
@@ -43,22 +43,22 @@ function swapOneForOneERC1155(bytes memory extra,
 	// Decode extradata
 	(address[2] memory tokenGiveGet, uint256[2] memory nftGiveGet, uint256[2] memory nftAmounts) = abi.decode(extra, (address[2], uint256[2], uint256[2]));
 
-	// EffectfullCall target = token to give
-	require(addresses[2] == tokenGiveGet[0], "ERC1155: Effectfull call target must equal address of token to give");
+	// EffectfulCall target = token to give
+	require(addresses[2] == tokenGiveGet[0], "ERC1155: Effectful call target must equal address of token to give");
 	// Assert more than zero
 	require(nftAmounts[0] > 0,"ERC1155: give amount must be larger than zero");
-	// EffectfullCall type = call
-	require(howToCalls[0] == AuthenticatedProxy.HowToCall.Call, "ERC1155: Effectfull call must be a direct call");
-	// Assert Effectfull calldata
+	// EffectfulCall type = call
+	require(howToCalls[0] == AuthenticatedProxy.HowToCall.Call, "ERC1155: Effectful call must be a direct call");
+	// Assert Effectful calldata
 	require(ArrayUtils.arrayEq(data, abi.encodeWithSignature("safeTransferFrom(address,address,uint256,uint256,bytes)", addresses[1], addresses[4], nftGiveGet[0], nftAmounts[0], "")));
 
-	// EffectfullCountercall target = token to get
-	require(addresses[5] == tokenGiveGet[1], "ERC1155: Effectfull countercall target must equal address of token to get");
+	// EffectfulCountercall target = token to get
+	require(addresses[5] == tokenGiveGet[1], "ERC1155: Effectful countercall target must equal address of token to get");
 	// Assert more than zero
 	require(nftAmounts[1] > 0,"ERC1155: take amount must be larger than zero");
-	// EffectfullCountercall type = call
-	require(howToCalls[1] == AuthenticatedProxy.HowToCall.Call, "ERC1155: Effectfull countercall must be a direct call");
-	// Assert Effectfull countercalldata
+	// EffectfulCountercall type = call
+	require(howToCalls[1] == AuthenticatedProxy.HowToCall.Call, "ERC1155: Effectful countercall must be a direct call");
+	// Assert Effectful countercalldata
 	require(ArrayUtils.arrayEq(counterdata, abi.encodeWithSignature("safeTransferFrom(address,address,uint256,uint256,bytes)", addresses[4], addresses[1], nftGiveGet[1], nftAmounts[1], "")));
 
 	// Mark filled
@@ -81,15 +81,15 @@ function swapOneForOneERC1155Decoding(bytes memory extra,
 	// Decode extradata
 	(address[2] memory tokenGiveGet, uint256[2] memory nftGiveGet, uint256[2] memory nftAmounts) = abi.decode(extra, (address[2],uint256[2],uint256[2]));
 
-	// EffectfullCall target = token to give
-	require(addresses[2] == tokenGiveGet[0], "ERC1155: Effectfull call target must equal address of token to give");
-	// EffectfullCall type = call
-	require(howToCalls[0] == AuthenticatedProxy.HowToCall.Call, "ERC1155: Effectfull call must be a direct call");
+	// EffectfulCall target = token to give
+	require(addresses[2] == tokenGiveGet[0], "ERC1155: Effectful call target must equal address of token to give");
+	// EffectfulCall type = call
+	require(howToCalls[0] == AuthenticatedProxy.HowToCall.Call, "ERC1155: Effectful call must be a direct call");
 	// Assert signature
 	require(ArrayUtils.arrayEq(sig, ArrayUtils.arrayTake(data, 4)));
-	// Decode and assert Effectfullcalldata	
+	// Decode and assert Effectfulcalldata	
 	require(ArrayUtils.arrayEq(data, abi.encodeWithSignature("safeTransferFrom(address,address,uint256,uint256,bytes)", addresses[1], addresses[4], nftGiveGet[0], nftAmounts[0], "")));
-	// Decode and assert Effectfull countercalldata
+	// Decode and assert Effectful countercalldata
 	require(ArrayUtils.arrayEq(counterdata, abi.encodeWithSignature("safeTransferFrom(address,address,uint256,uint256,bytes)", addresses[4], addresses[1], nftGiveGet[1], nftAmounts[1], "")));
 
 	// Mark filled

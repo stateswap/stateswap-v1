@@ -188,7 +188,7 @@ contract('StateswapExchange', (accounts) => {
     const call2 = { target: exchange.inst.address, howToCall: 0, data: data }
     return assertIsRejected(
       exchange.stateswap(one, NULL_SIG, call1, two, NULL_SIG, call2, ZERO_BYTES32),
-      /Second Effectfull call failed/,
+      /Second Effectful call failed/,
       'Should not have succeeded'
     )
   })

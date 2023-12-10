@@ -274,7 +274,7 @@ contract('StateswapExchange', (accounts) => {
 				account_b: accounts[6],
 				sender: accounts[1]
 			}),
-			/First Effectfull call failed/,
+			/First Effectful call failed/,
 			'Order should not fill'
 		)
 	})
@@ -297,7 +297,7 @@ contract('StateswapExchange', (accounts) => {
 				account_b: accounts[6],
 				sender: accounts[1]
 			}),
-			/Second Effectfull call failed/,
+			/Second Effectful call failed/,
 			'Order should not fill'
 		)
 	})
@@ -519,7 +519,7 @@ contract('StateswapExchange', (accounts) => {
 				account_b: accounts[6],
 				sender: accounts[1]
 			}),
-			/First Effectfull call failed/,
+			/First Effectful call failed/,
 			'Order should not fill'
 		)
 	})
@@ -541,7 +541,7 @@ contract('StateswapExchange', (accounts) => {
 				account_b: accounts[6],
 				sender: accounts[1]
 			}),
-			/Second Effectfull call failed/,
+			/Second Effectful call failed/,
 			'Order should not fill'
 		)
 	})
@@ -651,7 +651,7 @@ contract('StateswapExchange', (accounts) => {
 				account_b: accounts[6],
 				sender: accounts[1]
 			}),
-			/Second Effectfull call failed/,
+			/Second Effectful call failed/,
 			'Order should not have matched'
 		)
 	})

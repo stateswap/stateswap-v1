@@ -49,12 +49,12 @@ contract ExchangeCore is ReentrancyGuarded, StaticCaller, EIP712 {
     }
 
     /* A call, convenience struct. */
-    struct EffectfullCall {
+    struct EffectfulCall {
         /* Target */
         address target;
         /* How to call */
         AuthenticatedProxy.HowToCall howToCall;
-        /* EffectfullCalldata */
+        /* EffectfulCalldata */
         bytes data;
     }
 
@@ -206,27 +206,27 @@ contract ExchangeCore is ReentrancyGuarded, StaticCaller, EIP712 {
         return false;
     }
 
-    function encodeVerifierCall(Order memory order, EffectfullCall memory effectfullcall, Order memory counterorder, EffectfullCall memory effectfullcountercall, address matcher, uint value, uint fill)
+    function encodeVerifierCall(Order memory order, EffectfulCall memory effectfulcall, Order memory counterorder, EffectfulCall memory effectfulcountercall, address matcher, uint value, uint fill)
         internal
         pure
         returns (bytes memory)
     {
         /* This array wrapping is necessary to preserve verifierer call target function stack space. */
-        address[7] memory addresses = [order.registry, order.maker, effectfullcall.target, counterorder.registry, counterorder.maker, effectfullcountercall.target, matcher];
-        AuthenticatedProxy.HowToCall[2] memory howToCalls = [effectfullcall.howToCall, effectfullcountercall.howToCall];
+        address[7] memory addresses = [order.registry, order.maker, effectfulcall.target, counterorder.registry, counterorder.maker, effectfulcountercall.target, matcher];
+        AuthenticatedProxy.HowToCall[2] memory howToCalls = [effectfulcall.howToCall, effectfulcountercall.howToCall];
         uint[6] memory uints = [value, order.maximumFill, order.listingTime, order.expirationTime, counterorder.listingTime, fill];
-        return abi.encodeWithSelector(order.verifierSelector, order.verifierExtradata, addresses, howToCalls, uints, effectfullcall.data, effectfullcountercall.data);
+        return abi.encodeWithSelector(order.verifierSelector, order.verifierExtradata, addresses, howToCalls, uints, effectfulcall.data, effectfulcountercall.data);
     }
 
-    function executeVerifierCall(Order memory order, EffectfullCall memory effectfullcall, Order memory counterorder, EffectfullCall memory effectfullcountercall, address matcher, uint value, uint fill)
+    function executeVerifierCall(Order memory order, EffectfulCall memory effectfulcall, Order memory counterorder, EffectfulCall memory effectfulcountercall, address matcher, uint value, uint fill)
         internal
         view
         returns (uint)
     {
-        return staticCallUint(order.verifierTarget, encodeVerifierCall(order, effectfullcall, counterorder, effectfullcountercall, matcher, value, fill));
+        return staticCallUint(order.verifierTarget, encodeVerifierCall(order, effectfulcall, counterorder, effectfulcountercall, matcher, value, fill));
     }
 
-    function executeCall(ProxyRegistryInterface registry, address maker, EffectfullCall memory effectfullCall)
+    function executeCall(ProxyRegistryInterface registry, address maker, EffectfulCall memory effectfulCall)
         internal
         returns (bool)
     {
@@ -234,7 +234,7 @@ contract ExchangeCore is ReentrancyGuarded, StaticCaller, EIP712 {
         require(registries[address(registry)]);
 
         /* Assert target exists. */
-        require(exists(effectfullCall.target), "efectfullCall target does not exist");
+        require(exists(effectfulCall.target), "efectfullCall target does not exist");
 
         /* Retrieve delegate proxy contract. */
         OwnableDelegateProxy delegateProxy = registry.proxies(maker);
@@ -249,7 +249,7 @@ contract ExchangeCore is ReentrancyGuarded, StaticCaller, EIP712 {
         AuthenticatedProxy proxy = AuthenticatedProxy(address(delegateProxy));
 
         /* Execute order. */
-        return proxy.proxy(effectfullCall.target, effectfullCall.howToCall, effectfullCall.data);
+        return proxy.proxy(effectfulCall.target, effectfulCall.howToCall, effectfulCall.data);
     }
 
     function approveOrderHash(bytes32 hash)
@@ -301,7 +301,7 @@ contract ExchangeCore is ReentrancyGuarded, StaticCaller, EIP712 {
         emit OrderFillChanged(hash, msg.sender, fill);
     }
 
-    function stateswap(Order memory firstOrder, EffectfullCall memory firstEffectfullCall, Order memory secondOrder, EffectfullCall memory secondEffectfullCall, bytes memory signatures, bytes32 metadata)
+    function stateswap(Order memory firstOrder, EffectfulCall memory firstEffectfulCall, Order memory secondOrder, EffectfulCall memory secondEffectfulCall, bytes memory signatures, bytes32 metadata)
         internal
         reentrancyGuard
     {
@@ -343,12 +343,12 @@ contract ExchangeCore is ReentrancyGuarded, StaticCaller, EIP712 {
             require(success, "native token transfer failed.");
         }
 
-        /* Execute first Effectfull call, assert success.
+        /* Execute first Effectful call, assert success.
            This is the second "asymmetric" part of order matching: execution of the second order can depend on state changes in the first order, but not vice-versa. */
-        require(executeCall(ProxyRegistryInterface(firstOrder.registry), firstOrder.maker, firstEffectfullCall), "First Effectfull call failed");
+        require(executeCall(ProxyRegistryInterface(firstOrder.registry), firstOrder.maker, firstEffectfulCall), "First Effectful call failed");
 
         /* Execute second Effectful call, assert success. */
-        require(executeCall(ProxyRegistryInterface(secondOrder.registry), secondOrder.maker, secondEffectfullCall), "Second Effectfull call failed");
+        require(executeCall(ProxyRegistryInterface(secondOrder.registry), secondOrder.maker, secondEffectfulCall), "Second Effectful call failed");
 
         /* Verifier calls must happen after the effectful calls so that they can check the resulting state. */
 
@@ -359,10 +359,10 @@ contract ExchangeCore is ReentrancyGuarded, StaticCaller, EIP712 {
         uint previousSecondFill = fills[secondOrder.maker][secondHash];
 
         /* Execute first order verifier call, assert success, capture returned new fill. */
-        uint firstFill = executeVerifierCall(firstOrder, firstEffectfullCall, secondOrder, secondEffectfullCall, msg.sender, msg.value, previousFirstFill);
+        uint firstFill = executeVerifierCall(firstOrder, firstEffectfulCall, secondOrder, secondEffectfulCall, msg.sender, msg.value, previousFirstFill);
 
         /* Execute second order verifier call, assert success, capture returned new fill. */
-        uint secondFill = executeVerifierCall(secondOrder, secondEffectfullCall, firstOrder, firstEffectfullCall, msg.sender, uint(0), previousSecondFill);
+        uint secondFill = executeVerifierCall(secondOrder, secondEffectfulCall, firstOrder, firstEffectfulCall, msg.sender, uint(0), previousSecondFill);
 
         /* EFFECTS */
 

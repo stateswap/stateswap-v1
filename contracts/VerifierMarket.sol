@@ -29,14 +29,14 @@ contract VerifierMarket {
 		returns (uint)
 	{
 		require(uints[0] == 0,"anyERC1155ForERC20: Zero value required");
-		require(howToCalls[0] == AuthenticatedProxy.HowToCall.Call, "anyERC1155ForERC20: Effectfull call must be a direct call");
+		require(howToCalls[0] == AuthenticatedProxy.HowToCall.Call, "anyERC1155ForERC20: Effectful call must be a direct call");
 
 		(address[2] memory tokenGiveGet, uint256[3] memory tokenIdAndNumeratorDenominator) = abi.decode(extra, (address[2], uint256[3]));
 
 		require(tokenIdAndNumeratorDenominator[1] > 0,"anyERC20ForERC1155: numerator must be larger than zero");
 		require(tokenIdAndNumeratorDenominator[2] > 0,"anyERC20ForERC1155: denominator must be larger than zero");
-		require(addresses[2] == tokenGiveGet[0], "anyERC1155ForERC20: Effectfull call target must equal address of token to give");
-		require(addresses[5] == tokenGiveGet[1], "anyERC1155ForERC20: Effectfull countercall target must equal address of token to get");
+		require(addresses[2] == tokenGiveGet[0], "anyERC1155ForERC20: Effectful call target must equal address of token to give");
+		require(addresses[5] == tokenGiveGet[1], "anyERC1155ForERC20: Effectful countercall target must equal address of token to get");
 
 		uint256[2] memory call_amounts = [
 			getERC1155AmountFromCalldata(data),
@@ -65,8 +65,8 @@ contract VerifierMarket {
 
 		require(tokenIdAndNumeratorDenominator[1] > 0,"anyERC20ForERC1155: numerator must be larger than zero");
 		require(tokenIdAndNumeratorDenominator[2] > 0,"anyERC20ForERC1155: denominator must be larger than zero");
-		require(addresses[2] == tokenGiveGet[0], "anyERC20ForERC1155: Effectfull call target must equal address of token to get");
-		require(addresses[5] == tokenGiveGet[1], "anyERC20ForERC1155: Effectfull countercall target must equal address of token to give");
+		require(addresses[2] == tokenGiveGet[0], "anyERC20ForERC1155: Effectful call target must equal address of token to get");
+		require(addresses[5] == tokenGiveGet[1], "anyERC20ForERC1155: Effectful countercall target must equal address of token to give");
 
 		uint256[2] memory call_amounts = [
 			getERC1155AmountFromCalldata(counterdata),
@@ -95,8 +95,8 @@ contract VerifierMarket {
 
 		require(numeratorDenominator[0] > 0,"anyERC20ForERC20: numerator must be larger than zero");
 		require(numeratorDenominator[1] > 0,"anyERC20ForERC20: denominator must be larger than zero");
-		require(addresses[2] == tokenGiveGet[0], "anyERC20ForERC20: Effectfull call target must equal address of token to give");
-		require(addresses[5] == tokenGiveGet[1], "anyERC20ForERC20: Effectfull countercall target must equal address of token to get");
+		require(addresses[2] == tokenGiveGet[0], "anyERC20ForERC20: Effectful call target must equal address of token to give");
+		require(addresses[5] == tokenGiveGet[1], "anyERC20ForERC20: Effectful countercall target must equal address of token to get");
 		
 		uint256[2] memory call_amounts = [
 			getERC20AmountFromCalldata(data),
@@ -124,8 +124,8 @@ contract VerifierMarket {
 		(address[2] memory tokenGiveGet, uint256[2] memory tokenIdAndPrice) = abi.decode(extra, (address[2], uint256[2]));
 
 		require(tokenIdAndPrice[1] > 0,"ERC721ForERC20: ERC721 price must be larger than zero");
-		require(addresses[2] == tokenGiveGet[0], "ERC721ForERC20: Effectfull call target must equal address of token to give");
-		require(addresses[5] == tokenGiveGet[1], "ERC721ForERC20: Effectfull countercall target must equal address of token to get");
+		require(addresses[2] == tokenGiveGet[0], "ERC721ForERC20: Effectful call target must equal address of token to give");
+		require(addresses[5] == tokenGiveGet[1], "ERC721ForERC20: Effectful countercall target must equal address of token to get");
 
 		checkERC721Side(data,addresses[1],addresses[4],tokenIdAndPrice[0]);
 		checkERC20Side(counterdata,addresses[4],addresses[1],tokenIdAndPrice[1]);
@@ -141,13 +141,13 @@ contract VerifierMarket {
 		returns (uint)
 	{
 		require(uints[0] == 0,"ERC20ForERC721: Zero value required");
-		require(howToCalls[0] == AuthenticatedProxy.HowToCall.Call, "ERC20ForERC721: Effectfull call must be a direct call");
+		require(howToCalls[0] == AuthenticatedProxy.HowToCall.Call, "ERC20ForERC721: Effectful call must be a direct call");
 
 		(address[2] memory tokenGiveGet, uint256[2] memory tokenIdAndPrice) = abi.decode(extra, (address[2], uint256[2]));
 
 		require(tokenIdAndPrice[1] > 0,"ERC20ForERC721: ERC721 price must be larger than zero");
-		require(addresses[2] == tokenGiveGet[0], "ERC20ForERC721: Effectfull call target must equal address of token to give");
-		require(addresses[5] == tokenGiveGet[1], "ERC20ForERC721: Effectfull countercall target must equal address of token to get");
+		require(addresses[2] == tokenGiveGet[0], "ERC20ForERC721: Effectful call target must equal address of token to give");
+		require(addresses[5] == tokenGiveGet[1], "ERC20ForERC721: Effectful countercall target must equal address of token to get");
 
 		checkERC721Side(counterdata,addresses[4],addresses[1],tokenIdAndPrice[0]);
 		checkERC20Side(data,addresses[1],addresses[4],tokenIdAndPrice[1]);

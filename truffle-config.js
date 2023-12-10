@@ -5,6 +5,7 @@ var KlaytnHDWalletProvider = require('truffle-hdwallet-provider-klaytn')
 var Caver = require('caver-js')
 
 var goerliMnemonic = process.env.GOERLI_MNEMONIC || ''
+var sepoliaMnemonic = process.env.SEPOLIA_MNEMONIC || ''
 var mumbaiMnemonic = process.env.MUMBAI_MNEMONIC || ''
 var mainnetMnemonic = process.env.MAINNET_MNEMONIC || ''
 var klaytnPrivateKey = process.env.KLAYTN_PRIVATE_KEY || ''
@@ -31,7 +32,7 @@ module.exports = {
       confirmations: 2
     },
     development: {
-      host: 'localhost',
+      host: '127.0.0.1',
       port: 8545,
       network_id: '50',
       gas: 6700000
@@ -50,6 +51,18 @@ module.exports = {
       from: '',
       port: 8545,
       network_id: '5',
+      gas: 6700000,
+      networkCheckTimeout: 100000,
+      gasPrice: 21110000000,
+      confirmations: 2
+    },
+    sepolia: {
+      provider: function () {
+        return new HDWalletProvider(sepoliaMnemonic, 'https://sepolia.infura.io/v3/' + infuraKey)
+      },
+      from: '',
+      port: 8545,
+      network_id: '11155111',
       gas: 6700000,
       networkCheckTimeout: 100000,
       gasPrice: 21110000000,

@@ -206,24 +206,24 @@ contract ExchangeCore is ReentrancyGuarded, StaticCaller, EIP712 {
         return false;
     }
 
-    function encodeVerifierCall(Order memory order, Call memory call, Order memory counterorder, Call memory countercall, address matcher, uint value, uint fill)
+    function encodeVerifierCall(Order memory order, EffectfullCall memory effectfullcall, Order memory counterorder, EffectfullCall memory effectfullcountercall, address matcher, uint value, uint fill)
         internal
         pure
         returns (bytes memory)
     {
         /* This array wrapping is necessary to preserve verifierer call target function stack space. */
-        address[7] memory addresses = [order.registry, order.maker, call.target, counterorder.registry, counterorder.maker, countercall.target, matcher];
-        AuthenticatedProxy.HowToCall[2] memory howToCalls = [call.howToCall, countercall.howToCall];
+        address[7] memory addresses = [order.registry, order.maker, effectfullcall.target, counterorder.registry, counterorder.maker, effectfullcountercall.target, matcher];
+        AuthenticatedProxy.HowToCall[2] memory howToCalls = [effectfullcall.howToCall, effectfullcountercall.howToCall];
         uint[6] memory uints = [value, order.maximumFill, order.listingTime, order.expirationTime, counterorder.listingTime, fill];
-        return abi.encodeWithSelector(order.verifierSelector, order.verifierExtradata, addresses, howToCalls, uints, call.data, countercall.data);
+        return abi.encodeWithSelector(order.verifierSelector, order.verifierExtradata, addresses, howToCalls, uints, effectfullcall.data, effectfullcountercall.data);
     }
 
-    function executeVerifierCall(Order memory order, Call memory call, Order memory counterorder, Call memory countercall, address matcher, uint value, uint fill)
+    function executeVerifierCall(Order memory order, EffectfullCall memory effectfullcall, Order memory counterorder, EffectfullCall memory effectfullcountercall, address matcher, uint value, uint fill)
         internal
         view
         returns (uint)
     {
-        return staticCallUint(order.verifierTarget, encodeVerifierCall(order, call, counterorder, countercall, matcher, value, fill));
+        return staticCallUint(order.verifierTarget, encodeVerifierCall(order, effectfullcall, counterorder, effectfullcountercall, matcher, value, fill));
     }
 
     function executeCall(ProxyRegistryInterface registry, address maker, EffectfullCall memory effectfullCall)
@@ -359,10 +359,10 @@ contract ExchangeCore is ReentrancyGuarded, StaticCaller, EIP712 {
         uint previousSecondFill = fills[secondOrder.maker][secondHash];
 
         /* Execute first order verifier call, assert success, capture returned new fill. */
-        uint firstFill = executeVerifierCall(firstOrder, firstCall, secondOrder, secondCall, msg.sender, msg.value, previousFirstFill);
+        uint firstFill = executeVerifierCall(firstOrder, firstEffectfullCall, secondOrder, secondEffectfullCall, msg.sender, msg.value, previousFirstFill);
 
         /* Execute second order verifier call, assert success, capture returned new fill. */
-        uint secondFill = executeVerifierCall(secondOrder, secondCall, firstOrder, firstCall, msg.sender, uint(0), previousSecondFill);
+        uint secondFill = executeVerifierCall(secondOrder, secondEffectfullCall, firstOrder, firstEffectfullCall, msg.sender, uint(0), previousSecondFill);
 
         /* EFFECTS */
 

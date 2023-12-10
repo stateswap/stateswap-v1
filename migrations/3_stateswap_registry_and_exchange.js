@@ -8,6 +8,7 @@ const chainIds = {
   development: 50,
   coverage: 50,
   goerli: 5,
+  sepolia: 11155111,
   mumbai: 80001,
   main: 1
 }

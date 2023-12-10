@@ -22,11 +22,11 @@ contract VerifierERC20 {
         // Decode extradata
         (address token, uint amount) = abi.decode(extra, (address, uint));
 
-        // Call target = token to give
+        // EffectfulCall target = token to give
         require(addresses[2] == token);
-        // Call type = call
+        // EffectfulCall type = call
         require(howToCall == AuthenticatedProxy.HowToCall.Call);
-        // Assert calldata
+        // Assert Effectfulcalldata
         require(ArrayUtils.arrayEq(data, abi.encodeWithSignature("transferFrom(address,address,uint256)", addresses[1], addresses[4], amount)));
     }
 
@@ -43,17 +43,17 @@ contract VerifierERC20 {
         // Decode extradata
         (address[2] memory tokenGiveGet, uint[2] memory amountGiveGet) = abi.decode(extra, (address[2], uint[2]));
 
-        // Call target = token to give
+        // EffectfulCall target = token to give
         require(addresses[2] == tokenGiveGet[0]);
-        // Call type = call
+        // EffectfulCall type = call
         require(howToCalls[0] == AuthenticatedProxy.HowToCall.Call);
         // Assert calldata
         require(ArrayUtils.arrayEq(data, abi.encodeWithSignature("transferFrom(address,address,uint256)", addresses[1], addresses[4], amountGiveGet[0])));
 
         require(addresses[5] == tokenGiveGet[1]);
-        // Countercall type = call
+        // Effectful Countercall type = call
         require(howToCalls[1] == AuthenticatedProxy.HowToCall.Call);
-        // Assert countercalldata
+        // Assert Effectful countercalldata
         require(ArrayUtils.arrayEq(counterdata, abi.encodeWithSignature("transferFrom(address,address,uint256)", addresses[4], addresses[1], amountGiveGet[1])));
 
         // Mark filled.
@@ -76,9 +76,9 @@ contract VerifierERC20 {
         // Decode extradata
         (address[2] memory tokenGiveGet, uint[2] memory numeratorDenominator) = abi.decode(extra, (address[2], uint[2]));
 
-        // Call target = token to give
+        // EffectfulCall target = token to give
         require(addresses[2] == tokenGiveGet[0]);
-        // Call type = call
+        // EffectfulCall type = call
         require(howToCalls[0] == AuthenticatedProxy.HowToCall.Call);
         // Check signature
         require(ArrayUtils.arrayEq(sig, ArrayUtils.arrayTake(data, 4)));
@@ -89,7 +89,7 @@ contract VerifierERC20 {
         // Assert to
         require(callTo == addresses[4]);
 
-        // Countercall target = token to get
+        // Effectful Countercall target = token to get
         require(addresses[5] == tokenGiveGet[1]);
         // Countercall type = call
         require(howToCalls[1] == AuthenticatedProxy.HowToCall.Call);

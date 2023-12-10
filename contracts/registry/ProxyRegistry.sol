@@ -32,7 +32,7 @@ contract ProxyRegistry is Ownable, ProxyRegistryInterface {
     mapping(address => bool) public contracts;
 
     /* Delay period for adding an authenticated contract.
-       This mitigates a particular class of potential attack on the Stateswap DAO (which owns this registry) - if at any point the value of assets held by proxy contracts exceeded the value of half the WYV supply (votes in the DAO),
+       This mitigates a particular class of potential attack on the Stateswap DAO (which owns this registry) - if at any point the value of assets held by proxy contracts exceeded the value of half the DAO token supply (votes in the DAO),
        a malicious but rational attacker could buy half the Stateswap and grant themselves access to all the proxy contracts. A delay period renders this attack nonthreatening - given two weeks, if that happened, users would have
        plenty of time to notice and transfer their assets.
     */

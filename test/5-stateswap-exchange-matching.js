@@ -10,7 +10,7 @@ const TestERC1271 = artifacts.require('TestERC1271')
 const TestSmartContractWallet = artifacts.require('TestSmartContractWallet')
 
 const Web3 = require('web3')
-const provider = new Web3.providers.HttpProvider('http://localhost:8545')
+const provider = new Web3.providers.HttpProvider('http://127.0.0.1:8545')
 const web3 = new Web3(provider)
 
 const { wrap, hashOrder, ZERO_BYTES32, randomUint, NULL_SIG, assertIsRejected } = require('./util')
@@ -188,7 +188,7 @@ contract('StateswapExchange', (accounts) => {
     const call2 = { target: exchange.inst.address, howToCall: 0, data: data }
     return assertIsRejected(
       exchange.stateswap(one, NULL_SIG, call1, two, NULL_SIG, call2, ZERO_BYTES32),
-      /Second call failed/,
+      /Second Effectful call failed/,
       'Should not have succeeded'
     )
   })

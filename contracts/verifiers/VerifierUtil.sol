@@ -20,8 +20,8 @@ contract VerifierUtil is StaticCaller {
         returns (uint)
     {
         /*
-           Accept any call.
-           Useful e.g. for matching-by-transaction, where you authorize the counter-call by sending the transaction and don't need to re-check it.
+           Accept any Effectful call.
+           Useful e.g. for matching-by-transaction, where you authorize the Effectful counter-call by sending the transaction and don't need to re-check it.
            Return fill "1".
         */
 
@@ -41,8 +41,8 @@ contract VerifierUtil is StaticCaller {
         returns (uint)
     {
         /*
-           Accept any call.
-           Useful e.g. for matching-by-transaction, where you authorize the counter-call by sending the transaction and don't need to re-check it.
+           Accept any Effectful call.
+           Useful e.g. for matching-by-transaction, where you authorize the Effectful counter-call by sending the transaction and don't need to re-check it.
            Return fill "0".
         */
 
@@ -55,8 +55,8 @@ contract VerifierUtil is StaticCaller {
         returns (uint)
     {
         /*
-           Accept any call.
-           Useful e.g. for matching-by-transaction, where you authorize the counter-call by sending the transaction and don't need to re-check it.
+           Accept any Effectful call.
+           Useful e.g. for matching-by-transaction, where you authorize the Effectful counter-call by sending the transaction and don't need to re-check it.
            Return the current fill plus 1.
         */
 
@@ -72,12 +72,12 @@ contract VerifierUtil is StaticCaller {
     {
         (address[2] memory targets, bytes4[2] memory selectors, bytes memory firstExtradata, bytes memory secondExtradata) = abi.decode(extra, (address[2], bytes4[2], bytes, bytes));
 
-        /* Split into two static calls: one for the call, one for the counter-call, both with metadata. */
+        /* Split into two static calls: one for the Effectful call, one for the Effectful counter-call, both with metadata. */
 
-        /* Static call to check the call. */
+        /* Static call to check the Effectful call. */
         require(staticCall(targets[0], abi.encodeWithSelector(selectors[0], firstExtradata, addresses, howToCalls[0], uints, data)));
 
-        /* Static call to check the counter-call. */
+        /* Static call to check the Effectful counter-call. */
         require(staticCall(targets[1], abi.encodeWithSelector(selectors[1], secondExtradata, [addresses[3], addresses[4], addresses[5], addresses[0], addresses[1], addresses[2], addresses[6]], howToCalls[1], uints, counterdata)));
 
         return 1;
@@ -148,7 +148,7 @@ contract VerifierUtil is StaticCaller {
     {
         (address[] memory addrs, uint[] memory extradataLengths, bytes4[] memory selectors, bytes memory extradatas) = abi.decode(extra, (address[], uint[], bytes4[], bytes));
 
-        /* Assert DELEGATECALL to atomicizer library with given call sequence, split up predicates accordingly.
+        /* Assert DELEGATECALL to atomicizer library with given Effectful call sequence, split up predicates accordingly.
            e.g. transferring two CryptoKitties in sequence. */
 
         require(addrs.length == extradataLengths.length);
@@ -157,7 +157,7 @@ contract VerifierUtil is StaticCaller {
 
         require(addresses[2] == atomicizer);
         require(howToCall == AuthenticatedProxy.HowToCall.DelegateCall);
-        require(addrs.length == caddrs.length); // Exact calls only
+        require(addrs.length == caddrs.length); // Exact Effectful calls only
 
         for (uint i = 0; i < addrs.length; i++) {
             require(cvals[i] == 0);
@@ -186,7 +186,7 @@ contract VerifierUtil is StaticCaller {
     {
         (address[] memory addrs, uint[] memory extradataLengths, bytes4[] memory selectors, bytes memory extradatas) = abi.decode(extra, (address[], uint[], bytes4[], bytes));
 
-        /* Assert DELEGATECALL to atomicizer library with given call sequence, split up predicates accordingly.
+        /* Assert DELEGATECALL to atomicizer library with given Effectful call sequence, split up predicates accordingly.
            e.g. transferring two CryptoKitties in sequence. */
 
         require(addrs.length == extradataLengths.length);
@@ -195,7 +195,7 @@ contract VerifierUtil is StaticCaller {
 
         require(addresses[2] == atomicizer);
         require(howToCall == AuthenticatedProxy.HowToCall.DelegateCall);
-        require(addrs.length <= caddrs.length); // Extra calls OK
+        require(addrs.length <= caddrs.length); // Extra Effectful calls OK
 
         for (uint i = 0; i < addrs.length; i++) {
             require(cvals[i] == 0);

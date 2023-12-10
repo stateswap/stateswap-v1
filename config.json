@@ -1,12 +1,12 @@
 {
   "deployed": {
     "goerli": {
-      "Migrations": "0x624B244EA2EBD75E648E69BcCF618555d54a748f",
-      "StateswapAtomicizer": "0xe54Df82cBb61863987B20BAb6642347961B5738d",
-      "StateswapVerifier": "0xC9978Aa0629BebcEFC02a39764ff17434ba404C9",
-      "VerifierMarket": "0x998146152492587d5754Fe73c34113bda9821C28",
-      "StateswapRegistry": "0x22B46404a3DE839B87186317319a7d3d8eeF2B53",
-      "StateswapExchange": "0x327113485E4110Db061C17017aC213cD234Bb0E8"
+      "Migrations": "0x52F00627C674D14725566Bf1BF763B81fdeFb5E8",
+      "StateswapAtomicizer": "0xcc86c2464Fe9c8171e7206E4271c640cD6Ad2B89",
+      "StateswapVerifier": "0x3E5b690C80DCdEBA07E5F65d883Ad2A31630542F",
+      "VerifierMarket": "0x13a7C77Cd6131500DA45F82886baB2AABa47E95A",
+      "StateswapRegistry": "0xbd37a755BF2356f916f27C4555d8312D1600dAF2",
+      "StateswapExchange": "0x017A7a646192F0Ab312cAaDB133df89e55BF7491"
     },
     "sepolia": {
       "Migrations": "0xd445B51cEe9fed169978be7B5638E8Ed6b05A035",

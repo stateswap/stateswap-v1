@@ -8,7 +8,7 @@ const TestERC1155 = artifacts.require('TestERC1155')
 const TestERC20 = artifacts.require('TestERC20')
 
 const Web3 = require('web3')
-const provider = new Web3.providers.HttpProvider('http://localhost:8545')
+const provider = new Web3.providers.HttpProvider('http://127.0.0.1:8545')
 const web3 = new Web3(provider)
 
 const { wrap, ZERO_BYTES32, CHAIN_ID, NULL_SIG, assertIsRejected } = require('./util')
@@ -123,7 +123,7 @@ contract('StateswapExchange', (accounts) => {
 		assert.isTrue(new_balance2.toNumber() > 0, 'Incorrect balance')
 	})
 
-	it('matches erc1155 + erc20 <> erc1155 orders, matched left, real static call', async () => {
+	it('matches erc1155 + erc20 <> erc1155 orders, matched left, real verifier call', async () => {
 		let account_a = accounts[0]
 		let account_b = accounts[6]
 
@@ -315,7 +315,7 @@ contract('StateswapExchange', (accounts) => {
 	it('matches erc1155 <> erc20 signed orders, matched right, real verifier call, cannot fill beyond maximumFill', async () => {
 		return assertIsRejected(
 			erc1155_erc20_match_right_verifier_call(1, 2),
-			/First call failed/,
+			/First Effectfull call failed/,
 			'Order should not match a second time.'
 		)
 	})
